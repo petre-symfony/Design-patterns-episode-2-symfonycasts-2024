@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\ActionCommand\AttackCommand;
 use App\Builder\CharacterBuilder;
 use App\Character\Character;
 use App\Observer\GameObserverInterface;
@@ -29,24 +30,14 @@ class GameApplication {
 				), '']);
 
 			// Player's turn
-			$playerDamage = $player->attack();
-			if ($playerDamage === 0) {
-				GameApplication::$printer->printFor($player)->exhaustedMessage();
-				$fightResultSet->of($player)->addExhaustedTurn();
-			}
-
-			$damageDealt = $ai->receiveAttack($playerDamage);
-			$fightResultSet->of($player)->addDamageDealt($damageDealt);
-
-			GameApplication::$printer->printFor($player)->attackMessage($damageDealt);
-			GameApplication::$printer->writeln('');
-			usleep(300000);
+			$playerAction = new AttackCommand($player, $ai, $fightResultSet);
+			$playerAction->execute();
 
 			if ($this->didPlayerDie($ai)) {
 				$this->endBattle($fightResultSet, $player, $ai);
 				return;
 			}
-
+			
 			// AI's turn
 			$aiDamage = $ai->attack();
 
