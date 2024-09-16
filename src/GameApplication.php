@@ -39,18 +39,8 @@ class GameApplication {
 			}
 
 			// AI's turn
-			$aiDamage = $ai->attack();
-
-			if ($aiDamage === 0) {
-				GameApplication::$printer->printFor($ai)->exhaustedMessage();
-				$fightResultSet->of($ai)->addExhaustedTurn();
-			}
-
-			$damageReceived = $player->receiveAttack($aiDamage);
-			$fightResultSet->of($player)->addDamageReceived($damageReceived);
-
-			GameApplication::$printer->printFor($ai)->attackMessage($damageReceived);
-			GameApplication::$printer->writeln('');
+			$aiAction = new AttackCommand($ai, $player, $fightResultSet);
+			$aiAction->execute();
 
 			if ($this->didPlayerDie($player)) {
 				$this->endBattle($fightResultSet, $ai, $player);
