@@ -37,7 +37,7 @@ class GameApplication {
 				$this->endBattle($fightResultSet, $player, $ai);
 				return;
 			}
-			
+
 			// AI's turn
 			$aiDamage = $ai->attack();
 
