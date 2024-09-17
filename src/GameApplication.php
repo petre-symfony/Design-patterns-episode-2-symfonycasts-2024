@@ -54,8 +54,17 @@ class GameApplication {
 			$aiAction->execute();
 
 			if ($this->didPlayerDie($player)) {
-				$this->endBattle($fightResultSet, $ai, $player);
-				return;
+				$undoChoice = GameApplication::$printer->confirm(
+					'You\'ve lost! Do you want to undo your last turn?'
+				);
+				if(!$undoChoice) {
+					$this->endBattle($fightResultSet, $ai, $player);
+					return;
+				}
+
+				// These have to be called in reverse order
+				$aiAction->undo();
+				$playerAction->undo();
 			}
 
 			$this->printCurrentHealth($player, $ai);
