@@ -6,7 +6,7 @@ use App\Character\Character;
 use App\FightResultSet;
 use App\GameApplication;
 
-class AttackCommand {
+class AttackCommand implements ActionCommandInterface {
 	public function __construct(
 		private readonly Character $player,
 		private readonly Character $oponent,
