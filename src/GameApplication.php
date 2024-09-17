@@ -3,6 +3,8 @@
 namespace App;
 
 use App\ActionCommand\AttackCommand;
+use App\ActionCommand\HealCommand;
+use App\ActionCommand\SurrenderCommand;
 use App\Builder\CharacterBuilder;
 use App\Character\Character;
 use App\Observer\GameObserverInterface;
@@ -30,7 +32,16 @@ class GameApplication {
 				), '']);
 
 			// Player's turn
-			$playerAction = new AttackCommand($player, $ai, $fightResultSet);
+			$actionChoice = GameApplication::$printer->choice('Your turn', [
+				'Attack',
+				'Heal',
+				'Surrender'
+			]);
+			$playerAction = match ($actionChoice) {
+				'Attack' => new AttackCommand($player, $ai, $fightResultSet),
+				'Heal' => new HealCommand($player),
+				'Surrender' => new SurrenderCommand($player)
+			};
 			$playerAction->execute();
 
 			if ($this->didPlayerDie($ai)) {
