@@ -104,7 +104,7 @@ class GameApplication {
 
 		$xpBonus = $this->xpBonusHandler->handle($winner, $fightResultSet->of($winner));
 		$winner->addXp($xpBonus);
-		
+
 		$this->notify($fightResultSet);
 
 		$winner->rest();

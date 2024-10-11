@@ -5,6 +5,7 @@ namespace App\ChainHandler;
 use App\Character\Character;
 use App\Dice;
 use App\FightResult;
+use App\GameApplication;
 
 class CasinoHandler implements XpBonusHandlerInterface {
 
@@ -16,11 +17,13 @@ class CasinoHandler implements XpBonusHandlerInterface {
 
 		// exit imediately
 		if ($dice1 + $dice2 === 7) {
+			GameApplication::$printer->info('You earned NO XP thanks to the Casino handler!');
 			return 0;
 		}
 
 		// Rolled a pair
 		if ($dice1 === $dice2) {
+			GameApplication::$printer->info('You earned extra XP thanks to the Casino handler!');
 			return 25;
 		}
 

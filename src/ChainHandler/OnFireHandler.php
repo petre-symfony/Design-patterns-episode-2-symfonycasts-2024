@@ -4,6 +4,7 @@ namespace App\ChainHandler;
 
 use App\Character\Character;
 use App\FightResult;
+use App\GameApplication;
 
 class OnFireHandler implements XpBonusHandlerInterface {
 
@@ -11,6 +12,7 @@ class OnFireHandler implements XpBonusHandlerInterface {
 
 	public function handle(Character $player, FightResult $fightResult): int {
 		if ($fightResult->getWinStreak() >=3) {
+			GameApplication::$printer->info('You earned extra XP thanks to the OnFire handler!');
 			return 25;
 		}
 
