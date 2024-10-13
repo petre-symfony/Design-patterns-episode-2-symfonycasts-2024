@@ -6,7 +6,11 @@ use App\Character\Character;
 use App\Dice;
 use App\FightResult;
 use App\GameApplication;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 
+#[Autoconfigure(
+	calls: [['setNext' => ['@' . LevelHandler::class]]]
+)]
 class CasinoHandler implements XpBonusHandlerInterface {
 
 	private XpBonusHandlerInterface $next;
