@@ -15,6 +15,10 @@ class CasinoHandler implements XpBonusHandlerInterface {
 
 	private XpBonusHandlerInterface $next;
 
+	public function __construct() {
+		$this->next = new NullHandler();
+	}
+
 	public function handle(Character $player, FightResult $fightResult): int {
 		$dice1 = Dice::roll(6);
 		$dice2 = Dice::roll(6);
@@ -31,11 +35,7 @@ class CasinoHandler implements XpBonusHandlerInterface {
 			return 25;
 		}
 
-		if (isset($this->next)) {
-			$this->next->handle($player, $fightResult);
-		}
-
-		return 0;
+		return $this->next->handle($player, $fightResult);
 	}
 
 	public function setNext(XpBonusHandlerInterface $next): void {

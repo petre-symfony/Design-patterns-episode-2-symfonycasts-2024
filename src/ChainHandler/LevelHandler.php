@@ -13,17 +13,17 @@ use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 class LevelHandler implements XpBonusHandlerInterface {
 	private XpBonusHandlerInterface $next;
 
+	public function __construct() {
+		$this->next = new NullHandler();
+	}
+
 	public function handle(Character $player, FightResult $fightResult): int {
 		if ($player->getLevel() === 1) {
 			GameApplication::$printer->info('You earned extra XP thanks to the Level handler!');
 			return 25;
 		}
 
-		if (isset($this->next)) {
-			return $this->next->handle($player, $fightResult);
-		}
-
-		return 0;
+		return $this->next->handle($player, $fightResult);
 	}
 
 	public function setNext(XpBonusHandlerInterface $next): void {
