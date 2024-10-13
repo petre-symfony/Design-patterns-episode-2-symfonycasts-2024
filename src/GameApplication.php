@@ -14,6 +14,7 @@ use App\Character\Character;
 use App\Observer\GameObserverInterface;
 use App\Printer\MessagePrinter;
 use RuntimeException;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 class GameApplication {
 	public static MessagePrinter $printer;
@@ -22,19 +23,13 @@ class GameApplication {
 
 	/** @var GameObserverInterface[] */
 	private array $observers = [];
-	private XpBonusHandlerInterface $xpBonusHandler;
 
-	public function __construct(private readonly CharacterBuilder $characterBuilder) {
+	public function __construct(
+		private readonly CharacterBuilder $characterBuilder,
+		#[Autowire(service: CasinoHandler::class)]
+		private readonly XpBonusHandlerInterface $xpBonusHandler
+	) {
 		$this->difficultyContext = new GameDifficultyContext();
-
-		$casinoHandler = new CasinoHandler();
-		$levelHandler = new LevelHandler();
-		$onFireHandler = new OnFireHandler();
-
-		$casinoHandler->setNext($levelHandler);
-		$levelHandler->setNext($onFireHandler);
-
-		$this->xpBonusHandler = $casinoHandler;
 	}
 
 	public function play(Character $player, Character $ai, FightResultSet $fightResultSet): void {
