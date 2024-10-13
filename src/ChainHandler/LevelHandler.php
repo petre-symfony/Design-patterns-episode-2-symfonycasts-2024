@@ -6,7 +6,6 @@ use App\Character\Character;
 use App\FightResult;
 use App\GameApplication;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 #[Autoconfigure(
 	calls: [['setNext' => ['@' . OnFireHandler::class]]]
@@ -14,10 +13,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 class LevelHandler implements XpBonusHandlerInterface {
 	private XpBonusHandlerInterface $next;
 
-	public function __construct(
-		#[Autowire(service: NullHandler::class)]
-		XpBonusHandlerInterface $next
-	) {
+	public function __construct() {
 		$this->next = new NullHandler();
 	}
 
