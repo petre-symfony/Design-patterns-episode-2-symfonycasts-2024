@@ -11,6 +11,7 @@ use App\ChainHandler\LevelHandler;
 use App\ChainHandler\OnFireHandler;
 use App\ChainHandler\XpBonusHandlerInterface;
 use App\Character\Character;
+use App\Factory\UltimateAttackTypeFactory;
 use App\Observer\GameObserverInterface;
 use App\Printer\MessagePrinter;
 use RuntimeException;
@@ -200,6 +201,18 @@ class GameApplication {
 	private function notify(FightResultSet $fightResultSet): void {
 		foreach ($this->observers as $observer) {
 			$observer->onFightFinished($fightResultSet);
+		}
+	}
+
+	public function activateCheatCode(string $cheatCode) {
+		switch ($cheatCode) {
+			case 'up-up-down-down-left-right-left-right-b-a-start':
+				GameApplication::$printer->writeln('Ultimate cheat code activated');
+				$this->characterBuilder->setAttackTypeFactory(new UltimateAttackTypeFactory());
+				break;
+			default:
+				GameApplication::$printer->writeln('Invalid Cheat Code Message');
+				break;
 		}
 	}
 }
