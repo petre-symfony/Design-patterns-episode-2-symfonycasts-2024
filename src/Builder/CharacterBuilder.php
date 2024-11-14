@@ -13,6 +13,7 @@ use App\AttackType\MultiAttackType;
 use App\AttackType\TwoHandedSwordType;
 use App\Character\Character;
 use App\Factory\AttackTypeFactory;
+use App\Factory\AttackTypeFactoryInterface;
 use RuntimeException;
 
 class CharacterBuilder {
@@ -23,7 +24,7 @@ class CharacterBuilder {
 	private int $level;
 
 	public function __construct(
-		private readonly AttackTypeFactory $attackTypeFactory
+		private readonly AttackTypeFactoryInterface $attackTypeFactory
 	) {
 	}
 
