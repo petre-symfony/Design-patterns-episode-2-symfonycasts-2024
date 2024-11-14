@@ -34,7 +34,7 @@ class GameCommand extends Command {
 		$io->section('Welcome to the game where warriors fight against each other for honor and glory... and 🍕!');
 
 		if ($input->getOption('cheatCode')) {
-			$this->game->activateCheatCode($input->getOption('cheatcode'));
+			$this->game->activateCheatCode($input->getOption('cheatCode'));
 		}
 
 		$characters = $this->game->getCharactersList();
