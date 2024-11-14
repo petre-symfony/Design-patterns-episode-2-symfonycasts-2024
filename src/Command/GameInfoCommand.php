@@ -57,13 +57,4 @@ class GameInfoCommand extends Command {
 
 		return round($damage / $sampleSize, 1);
 	}
-
-	private function createAttackType(string $attackType): AttackType {
-		return match ($attackType) {
-			'bow' => new BowType(),
-			'fire_bolt' => new FireBoltType(),
-			'sword' => new TwoHandedSwordType(),
-			default => throw new RuntimeException('Invalid attack type given')
-		};
-	}
 }
