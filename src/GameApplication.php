@@ -34,7 +34,6 @@ class GameApplication {
 
 	public function play(Character $player, Character $ai, FightResultSet $fightResultSet): void {
 		while (true) {
-			$player->setHealth(100);
 			$fightResultSet->addRound();
 			GameApplication::$printer->writeln([
 				'------------------------------',
