@@ -7,7 +7,7 @@ use App\AttackType\BowType;
 use App\AttackType\FireBoltType;
 use App\AttackType\TwoHandedSwordType;
 
-class AttackTypeFactory {
+class AttackTypeFactory implements AttackTypeFactoryInterface {
 	public function create(string $type): AttackType {
 		return match ($type) {
 			'bow' => new BowType(),
