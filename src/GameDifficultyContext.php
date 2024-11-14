@@ -3,12 +3,14 @@
 namespace App;
 
 use App\Character\Character;
+use App\DifficultyState\DifficultyStateInterface;
 
 class GameDifficultyContext {
 	public int $level = 1;
 	public int $enemyLevelBonus = 0;
 	public int $enemyHealthBonus = 0;
 	public int $enemyAttackBonus = 0;
+	public DifficultyStateInterface $difficultyState;
 
 	public function victory(Character $player, FightResult $fightResult): void {
 		switch ($this->level) {
