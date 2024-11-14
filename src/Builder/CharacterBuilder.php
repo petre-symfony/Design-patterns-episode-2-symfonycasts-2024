@@ -12,6 +12,7 @@ use App\AttackType\FireBoltType;
 use App\AttackType\MultiAttackType;
 use App\AttackType\TwoHandedSwordType;
 use App\Character\Character;
+use App\Factory\AttackTypeFactory;
 use RuntimeException;
 
 class CharacterBuilder {
@@ -20,6 +21,11 @@ class CharacterBuilder {
 	private array $attackTypes;
 	private string $armorType;
 	private int $level;
+
+	public function __construct(
+		private readonly AttackTypeFactory $attackTypeFactory
+	) {
+	}
 
 	public function setMaxHealth(int $maxHealth): self {
 		$this->maxHealth = $maxHealth;
@@ -52,7 +58,10 @@ class CharacterBuilder {
 	}
 
 	public function buildCharacter(): Character {
-		$attackTypes = array_map(fn(string $attackType) => $this->createAttackType($attackType), $this->attackTypes);
+		$attackTypes = array_map(fn(string $attackType) =>
+			$this->attackTypeFactory->create($attackType),
+			$this->attackTypes
+		);
 		if (count($attackTypes) === 1) {
 			$attackType = $attackTypes[0];
 		} else {
